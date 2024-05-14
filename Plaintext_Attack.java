@@ -3,7 +3,7 @@
 
 import java.math.BigInteger;
 
-public class Lab_3 {
+public class Plaintext_Attack {
     static BigInteger power(BigInteger b, BigInteger p, BigInteger mod) {
         b = b.mod(mod);
         if (p.equals(BigInteger.ZERO))
