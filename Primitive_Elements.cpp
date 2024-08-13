@@ -1,44 +1,38 @@
 // Bismillahir Rahmanir Rahim
-// Primitive Elements
 
-#include <bits/stdc++.h>
+#include<bits/stdc++.h>
+#include<boost/multiprecision/cpp_int.hpp>
+
 using namespace std;
+using namespace boost::multiprecision;
 
-// Function to calculate (base^exp) % mod
-long long int power(long long int base, long long int exp, long long int mod) {
-    long long int result = 1;
-    base = base % mod;
-    while (exp > 0) {
-        if (exp % 2 == 1)
-            result = (result * base) % mod;
-        exp = exp >> 1;
-        base = (base * base) % mod;
-    }
-    return result;
+cpp_int power(cpp_int b, cpp_int p, cpp_int m) {
+    b=b%m;
+    if(p==0) return 1;
+
+    cpp_int j=power(b, p/2, m);
+    j=(j*j)%m;
+
+    if(p%2==1) j=(j*b)%m;
+    return j;
 }
 
 int main() {
-    long long int p = 23;
-    for (int a = 2; a < p; a++) {
-        int flag = 1;
-        map<long long int, long long int> mp;
-        for (long long int i = 1; i < p - 1; i++) {
-            long long int s = power(a, i, p);
-            mp[s]++;
+    cpp_int p=23;
+    cout<<"Primitives of "<<p<<":"<<endl;
+    for(cpp_int a=2; a<p; a++) {
+        map<cpp_int, cpp_int>mp;
+        cpp_int flag=1;
+        for(cpp_int i=1; i<p-1; i++) {
+            mp[power(a, i, p)]++;
         }
-        for (auto i : mp) {
-            // cout << i.first << " " << i.second << endl;
-            if (i.second != 1) {
-                flag = 0;
+        for(auto i: mp) {
+            if(i.second>1){
+                flag=0;
                 break;
             }
         }
-        if (flag == 1)
-            cout << a << " is primitive." << endl;
-        else
-            cout << a << " is not primitive." << endl;
-        // cout << endl << endl;
-        flag = 1;
+        if(flag==0);
+        else cout<<a<<" ";
     }
-    return 0;
 }

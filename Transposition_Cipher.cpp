@@ -1,84 +1,73 @@
 // Bismillahir Rahmanir Rahim
 
-#include <bits/stdc++.h>
+#include<bits/stdc++.h>
 using namespace std;
 
-/*
-GIVEMESOMEMONEY
-FIND
-*/
-int main() {
+int main()
+{
+    string msg, key;
+    //cin>>msg>>key;
+    msg="GIVEMESOMEFOOD";
+    key="MONEY";
 
-    string message, key;
-    int row, column;
-    cin>>message>>key;
-
-    int message_length=message.size();
-    int key_length=key.size();
+    int row, col;
+    col=key.size();
+    if(msg.size()%key.size()==0) row=msg.size()/key.size();
+    else row=msg.size()/key.size()+1;
+    //cout<<row<<" "<<col<<endl;
+    for(int i=0; i<row*col-msg.size(); i++) msg+='*';
+    //cout<<msg;
     
-    //calculate row size and column size
-    row=key_length;
-    if(message_length%key_length==0) {
-        column=ceil(message_length/key_length);
-    }
-    else column=message_length/key_length+1;
-    //cout<<row<<" "<<column<<endl; 
-    
-    //fill the blank spaces with '*'
-    for(int i=0; i<row*column-message.length(); i++) {
-        message+='*';
+    cout<<"Table:"<<endl;
+    char m[100][100];
+    int l=0;
+    for(int i=0; i<row; i++) {
+        for(int j=0; j<col; j++) {
+            m[i][j]=msg[l++];
+            cout<<m[i][j];
+        }
+        cout<<endl;
     }
 
-    map<char, int>sorted_key_with_actual_index;
-    for(int i=0; i<key.size(); i++) {
-        sorted_key_with_actual_index[key[i]]=i;
-    }
-    /*
-    for(auto i:sorted_key_with_actual_index) {
+    cout<<endl<<"Key:"<<endl;   
+    map<char, int>mp;
+    for(int i=0; i<col; i++)mp[key[i]]=i;
+    l=0;
+    int ky[100];
+    char kya[100];
+    for(auto i: mp) {
         cout<<i.first<<" "<<i.second<<endl;
-    }
-    */
-
-    string message_in_matrix_form[100];
-    int j1=0;
-    for(int i=0; i<message.size(); i++) {
-        message_in_matrix_form[j1]+=message[i];
-        if(i%row==row-1) {
-            j1++;
-        }
-    }
-    cout<<endl<<"Matrix:"<<endl;
-    for(int i=0; i<row; i++) {
-        cout<<message_in_matrix_form[i]<<endl;
+        kya[l]=i.first;
+        ky[l]=i.second;
+        l++;
     }
 
-    string message_in_transpose_matrix_form[100];
-    int j2=0;
-    for(int i=0; i<row; i++) {
-        for(int j=0; j<column; j++) {
-            message_in_transpose_matrix_form[j2]+=message_in_matrix_form[j][i];
+    cout<<endl<<"Encrypted:"<<endl;
+    char en[100][100];
+    for(int i=0; i<col; i++) {
+        for(int j=0; j<row; j++) {
+            en[i][j]=m[j][ky[i]];
+            cout<<en[i][j];
         }
-        j2++;
-    }
-    cout<<endl<<"Transpose Matrix:"<<endl;
-    for(int i=0; i<row; i++) {
-        cout<<message_in_transpose_matrix_form[i]<<endl;
+        cout<<endl;
     }
 
-    cout<<endl<<"Cipher Text:"<<endl;
-    for(auto i:sorted_key_with_actual_index) {
-        cout<<message_in_transpose_matrix_form[i.second];
-    }
-    
-    /*
-    for(int i=0; i<row; i++) {
-        cout<<message_in_transpose_matrix_form[i]<<endl;
-    }
-    */
-    cout<<endl<<endl<<"Decrypted Text:"<<endl;
-    for(int i=0; i<row; i++) {
-        for(int j=0; j<column; j++) {
-            cout<<message_in_transpose_matrix_form[j][i];
+    cout<<endl<<"Serial w.r.t map:"<<endl;
+    int main[100];
+    for(int i=0; i<col; i++) {
+        for(int j=0; j<col; j++) {
+            if(key[i] == kya[j]) {
+                main[i]=j;
+                cout<<kya[j]<<" "<<main[i]<<endl;
+            }
         }
+    }
+
+    cout<<endl<<endl<<"Decrypted:"<<endl;
+    for(int i=0; i<col; i++) {
+        for(int j=0; j<row; j++) {
+            cout<<en[main[i]][j];
+        }
+        cout<<endl;
     }
 }
